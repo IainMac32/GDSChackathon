@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import axios from 'axios';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css"
@@ -12,6 +12,14 @@ const Home = (args) => {
 
     const handleFormSubmit = (inputValues) => {
         console.log(inputValues)
+        axios.post("http://127.0.0.1:5000/api/submit", { inputValues })
+        .then(response => {
+          console.log('Backend response:', response.data);
+          window.location.reload(false)
+        })
+        .catch(error => {
+          console.error('Error submitting input:', error);
+        });
       };
 
   return (

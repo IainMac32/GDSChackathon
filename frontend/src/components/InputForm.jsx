@@ -30,15 +30,15 @@ const InputForm = ({ onSubmit }) => {
     const renderInputs = () => {
         return inputValues.map((value, index) => (
             <div key={index}>
-            <label class="form-label">Slide #{index + 1} Description</label>
+            <label className="form-label">Slide #{index + 1} Description</label>
             <input
-            class="form-control"
+            className="form-control"
             key={index}
             type="text"
             value={value}
             onChange={(e) => handleInputChange(index, e.target.value)}
             />
-            <button class="btn btn-secondary" type="button" onClick={() => removeInput(index)}>
+            <button className="btn btn-secondary" type="button" onClick={() => removeInput(index)}>
             Remove
             </button>
             <br/><br/>
@@ -49,28 +49,29 @@ const InputForm = ({ onSubmit }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(inputValue)
-        onSubmit(inputValues)
-        setInputValue('');
         console.log(inputValues)
+        onSubmit(inputValues)
     };
 
 
     return (
-        <form class="form-group" onSubmit={handleSubmit}>
+        <form className="form-group" onSubmit={handleSubmit}>
             
-            <label class="form-label">
-                Project Title: <input  class="form-control" type="text" value={inputValue} onChange={handleChange} />
+            <label className="form-label">
+                Project Title: <input  className="form-control" type="text" value={inputValue} onChange={handleChange} />
             </label>
             
             <br/><br/>
             
             <hr/>
-            <button class="btn btn-primary" onClick={addInput}>Add Input</button>
+
+            <button className="btn btn-primary" type="button" onClick={addInput}>Add Slide</button>
+
+            
             <hr/>
             {renderInputs()}
             <br/>
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button className="btn btn-primary" type="submit">Submit</button>
         </form>
     );
 };
