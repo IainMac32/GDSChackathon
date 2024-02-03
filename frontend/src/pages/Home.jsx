@@ -10,8 +10,19 @@ import InputForm from '../components/InputForm';
 
 const Home = (args) => {
 
-    const handleFormSubmit = (inputValues) => {
+    const handleFormSubmit = (inputValues, inputValue) => {
         console.log(inputValues)
+        console.log(inputValue)
+
+        axios.post("http://127.0.0.1:5000/api/submit_title", { inputValue })
+        .then(response => {
+          console.log('Backend response:', response.data);
+          window.location.reload(false)
+        })
+        .catch(error => {
+          console.error('Error submitting input:', error);
+        });
+
         axios.post("http://127.0.0.1:5000/api/submit", { inputValues })
         .then(response => {
           console.log('Backend response:', response.data);

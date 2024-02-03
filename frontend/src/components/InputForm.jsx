@@ -50,7 +50,7 @@ const InputForm = ({ onSubmit }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(inputValues)
-        onSubmit(inputValues)
+        onSubmit(inputValues, inputValue)
     };
 
 

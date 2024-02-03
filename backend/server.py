@@ -20,6 +20,14 @@ def submit_data():
 
     return {"response": "POST REQUEST RECEIVED"}
 
+@app.route("/api/submit_title", methods=['POST', 'GET', 'OPTIONS'])
+def submit_title():
+    input_data = request.json.get('inputValue')
+    print("$$$$$$$$$$$$$$$$")
+    print(input_data)
+    print("$$$$$$$$$$$$$$$$")
+
+    return {"response": "POST REQUEST RECEIVED"}
 
 
 if __name__ == '__main__':
