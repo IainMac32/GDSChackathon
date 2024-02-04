@@ -84,7 +84,7 @@ def create_textbox_title(presentation_id, page_id, text):
                             "scaleX": 1,
                             "scaleY": 1,
                             "translateX": 10,
-                            "translateY": 10,
+                            "translateY": 5,
                             "unit": "PT",
                         },
                     },
@@ -104,7 +104,7 @@ def create_textbox_title(presentation_id, page_id, text):
                     "objectId": element_id,
                     "textRange": {"type": "ALL"},
                     "style": {
-                        "fontSize": {"magnitude": 35, "unit": "PT"},
+                        "fontSize": {"magnitude": 32, "unit": "PT"},
                         "foregroundColor": {"opaqueColor": {"rgbColor": {"red": 0.0, "green": 0.0, "blue": 0.0}}},
                         "bold": True,
                     },
@@ -145,7 +145,7 @@ def create_textbox_body(presentation_id, page_id, text):
                     "shapeType": "TEXT_BOX",
                     "elementProperties": {
                         "pageObjectId": page_id,
-                        "size": {"height": {"magnitude": 400, "unit": "PT"}, "width": {"magnitude": 700, "unit": "PT"}},
+                        "size": {"height": {"magnitude": 200, "unit": "PT"}, "width": {"magnitude": 700, "unit": "PT"}},
                         "transform": {
                             "scaleX": 1,
                             "scaleY": 1,
@@ -266,7 +266,7 @@ def create_slide_information():
 
     completion = openai.chat.completions.create(model="gpt-4-0125-preview",
     messages=[
-    {"role": "user", "content": "I want to make a slide show about the following information. I don't want a title I just want the body of the slides (50 minimum words, 120 max words per slide). Here is the context. "+question+". Nothing else. To indicate a new slide put '|' to help users know when a slide ends. you dont need to label each slide. DO NOT have more than 5 slides"}
+    {"role": "user", "content": "I want to make a slide show about the following information. I don't want a title I just want the body of the slides (40 minimum words, 60 max words per slide). Here is the context. "+question+". Nothing else. To indicate a new slide put '|' to help users know when a slide ends. you dont need to label each slide. DO NOT have more than 5 slides"}
     ])
 
     AnswerGPT = (completion.choices[0].message.content).replace("\n", "")
@@ -292,8 +292,10 @@ def presentation_routine():
     global slidesList
 
     if __name__ == "__main__":
+        print("TITLEE BEFORE!!!!! ",title)
 
         presentation_id = create_presentation(title[0]).get('presentationId')
+        print("TITLEE AFTER!!!!! ",title)
 
         #Deletes first slide
         requests = [{"deleteObject": {"objectId": "p",}}]
@@ -339,7 +341,7 @@ def presentation_routine():
             print("PROMP!!!!!!!!!!!!!! ",title)
 
             imgURL = image_search(searchPrompt+" "+title)
-            add_image_to_slide(presentation_id, slide_id1, imgURL,160,260,200,220)
+            add_image_to_slide(presentation_id, slide_id1, imgURL,155,255,200,235)
 
 
             create_textbox_title(presentation_id, slide_id1,title)
@@ -365,7 +367,7 @@ slidesList = []
 description = ""
 
 # OTHER STUFF
-openai.api_key = "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"
+openai.api_key = "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"
 
 # ROUTES 
 
@@ -464,3 +466,4 @@ def get_slides():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

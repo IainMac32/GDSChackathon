@@ -81,7 +81,7 @@ const DescriptionBox = ({ onSubmit }) => {
         const config = {
           headers: {
             'Content-type': 'multipart/form-data',
-            Authorization: 'Bearer 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',
+            Authorization: 'Bearer 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',
           }
         };
       
@@ -96,7 +96,7 @@ const DescriptionBox = ({ onSubmit }) => {
         const ToggleMic = () => {
           if (!can_record) return;
           
-          is_recording = !is_recording
+          is_recording = !is_recording;
       
           if (is_recording) {
             recorder.start();
