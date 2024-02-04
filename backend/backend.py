@@ -259,7 +259,7 @@ def image_search(searchPrompt):
 
 openai.api_key = "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"
 
-question = input("what do you want to write about?")
+question = input("what do you want to write about? \n")
 
 
 
