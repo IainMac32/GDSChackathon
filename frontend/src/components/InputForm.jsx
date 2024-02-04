@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import "../App.css"
+import LoadingIcon from './Loading';
 
 const InputForm = ({ onSubmit }) => {
 
@@ -88,19 +89,27 @@ const InputForm = ({ onSubmit }) => {
     };
 
     return (
-        <form className="form-group" onSubmit={handleSubmit}>
-            <label className="form-label">
-                Project Title: <input className="form-control" type="text" value={inputValue} onChange={handleChange} />
-            </label>
-            <br /><br />
-            <hr />
-            <button className="btn btn-primary" type="button" onClick={addInput}>Add Slide</button>
-            <hr/>
-            {renderInputs()}
-            <hr/>
-            <br />
-            <button className="btn btn-primary" type="submit">Generate Slides</button>
-        </form>
+        <div>
+            {(inputValue == "") ? (
+                <LoadingIcon/>
+            ) : (
+                <form className="form-group" onSubmit={handleSubmit}>
+                <label className="form-label">
+                    Project Title: <input className="form-control" type="text" value={inputValue} onChange={handleChange} />
+                </label>
+                <br /><br />
+                <hr />
+                <button className="btn btn-primary" type="button" onClick={addInput}>Add Slide</button>
+                <hr/>
+                {renderInputs()}
+                <hr/>
+                <br />
+                <button className="btn btn-primary" type="submit">Generate Slides</button>
+            </form>
+            )}
+            
+        </div>
+        
     );
 };
 

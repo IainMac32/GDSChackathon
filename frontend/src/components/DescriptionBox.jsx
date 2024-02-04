@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import "../App.css"
-import { NavLink } from 'react-router-dom';
 
 const DescriptionBox = ({ onSubmit }) => {
 
@@ -10,7 +9,6 @@ const DescriptionBox = ({ onSubmit }) => {
     const handleChange = (e) => {
         setDescriptionValue(e.target.value);
     };
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,14 +22,13 @@ const DescriptionBox = ({ onSubmit }) => {
         <form className="form-group" onSubmit={handleSubmit}>
             <textarea
                 className="form-control"
-                rows="3"
+                rows={15}
                 type="text"
                 value={descriptionValue}
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
             />
-            <NavLink to="/edit" >
                 <button className="btn btn-primary" type="submit">Generate Slide Summaries</button>
-            </NavLink>
+
         </form>
     );
 };

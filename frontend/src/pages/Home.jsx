@@ -5,10 +5,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css"
 
 import Sidebar from '../components/SideBar';
+import Navbar from '../components/NavBar';
 import DescriptionBox from '../components/DescriptionBox';
 
+import { useNavigate } from 'react-router-dom';
 
 const Home = (args) => {
+
+  const navigate = useNavigate();
 
   const handleFormSubmit = (descriptionValue) => {
     console.log(descriptionValue)
@@ -21,6 +25,8 @@ const Home = (args) => {
       .catch(error => {
         console.error('Error submitting input:', error);
       });
+
+    navigate('/edit');
     
   };
 
@@ -36,12 +42,11 @@ const Home = (args) => {
           <div className="flex-column text-center">
             <h1 className='p-3'>Google Slides Generator</h1>
             <div>
-                <DescriptionBox onSubmit={handleFormSubmit}></DescriptionBox>
+                <DescriptionBox onSubmit={handleFormSubmit} />
             </div>
           </div>
         </div>
         <div className="p-2 flex-grow-1">
-
         </div>
       </div>
     </div>

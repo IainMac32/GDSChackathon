@@ -19,3 +19,7 @@
   flex-direction: row;
 }
 
+textarea {
+  overflow-y: hidden;
+}
+

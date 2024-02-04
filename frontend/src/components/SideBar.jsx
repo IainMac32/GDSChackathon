@@ -30,13 +30,10 @@ const Sidebar = () => {
     <CDBSidebarContent className="sidebar-content d-flex justify-content-start" >
       <CDBSidebarMenu >
         <NavLink  to="/" >
-          <CDBSidebarMenuItem icon="search">Login</CDBSidebarMenuItem>
+          <CDBSidebarMenuItem icon="search">Create</CDBSidebarMenuItem>
         </NavLink>
-        <NavLink  to="/depots" >
-          <CDBSidebarMenuItem icon="map">Create</CDBSidebarMenuItem>
-        </NavLink>
-        <NavLink  to = "/guidelines" >
-          <CDBSidebarMenuItem icon="table">About</CDBSidebarMenuItem>
+        <NavLink  to="/about" >
+          <CDBSidebarMenuItem icon="map">About</CDBSidebarMenuItem>
         </NavLink>
        
 
