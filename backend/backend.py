@@ -191,10 +191,73 @@ def create_textbox_body(presentation_id, page_id, text):
 
     return response
 
+#-----------------------------------------------------------------------------------------------------
+
+def add_image_to_slide(presentation_id, slide_id, image_url):
+    try:
+        service = build("slides", "v1", credentials=creds)
+
+        # Create a new image on the slide
+        element_id = f"MyImage_{str(uuid.uuid4())}"
+        requests = [
+            {
+                "createImage": {
+                    "url": image_url,
+                    "elementProperties": {
+                        "pageObjectId": slide_id,
+                        "size": {"height": {"magnitude": 300, "unit": "PT"}, "width": {"magnitude": 400, "unit": "PT"}},
+                        "transform": {
+                            "scaleX": 1,
+                            "scaleY": 1,
+                            "translateX": 50,
+                            "translateY": 100,
+                            "unit": "PT",
+                        },
+                    },
+                }
+            },
+        ]
+
+        # Execute the request.
+        body = {"requests": requests}
+        response = (
+            service.presentations()
+            .batchUpdate(presentationId=presentation_id, body=body)
+            .execute()
+        )
+        create_image_response = response.get("replies")[0].get("createImage")
+        print(f"Added image with ID: {create_image_response.get('objectId')}")
+
+    except HttpError as error:
+        print(f"An error occurred: {error}")
+        return error
+
+    return response
+
 
 #-----------------------------------------------------------------------------------------------------
 
-openai.api_key = "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"
+def image_search(searchPrompt):
+    from google_images_search import GoogleImagesSearch
+
+    api_key = 'AIzaSyBx2hD7jfdA3lbLfrdRjhdh5y5A9Dnu8oI'
+    cx = '13e50dc25e96d4813'
+    gis = GoogleImagesSearch(api_key, cx)
+
+    search_params = {
+        'q': searchPrompt,
+        'num': 1,  # Number of results to fetch
+        'safe': 'high',  # Safe search level (options: high, medium, off)
+    }
+    gis.search(search_params=search_params)
+
+    for image in gis.results():
+        return image.url
+    return 
+
+#-----------------------------------------------------------------------------------------------------
+
+openai.api_key = "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"
 
 question = input("what do you want to write about?")
 
@@ -230,16 +293,29 @@ if __name__ == "__main__":
         {"role": "user", "content": "Based of this info make me a title 4 words max. Only return the title nothing else! Also don't include quotation marks"+AnswerGPT}
     ])
 
+    
+
     print("waiting for slide create")
     slide_id1 = create_slide(slideNum)
     print("waiting for title create")
     title = (completion.choices[0].message.content)
     create_textbox_title(presentation_id, slide_id1,title)
     print("done first!")
+
+    completion = openai.chat.completions.create(model="gpt-4-0125-preview",
+        messages=[
+        {"role": "user", "content": "if you were to look up an image to put with this title of a slide what would you search up . Only return the search prompt nothing else! Also don't include quotation marks"+title}
+    ])
+    searchPrompt = (completion.choices[0].message.content)
+
+    print("PROMP!!!!!!!!!!!!!! ",searchPrompt)
+
+    imgURL = image_search(searchPrompt)
+    add_image_to_slide(presentation_id, slide_id1, imgURL)
+
     slideNum +=1
 
-
-
+    #############################
 
     for slideInfo in slidesList:
         print("Waiting for GPT")
@@ -265,3 +341,6 @@ if __name__ == "__main__":
     requests = [{"deleteObject": {"objectId": "p",}}]
     body = {"requests": requests}
     response = (service.presentations().batchUpdate(presentationId=presentation_id, body=body).execute())
+
+
+
