@@ -43,10 +43,11 @@ const Home = (args) => {
 
   }
 
-  let can_record = false;
-    let is_recording = false;
-    let recorder = null;
+    const [recordingToggle, setRecordingToggle] = useState(false)
+    let can_record = false;
     
+    let recorder = null;
+    let is_recording = false;
     let chunks = [];
     
     const setupAudio = () => {
@@ -78,7 +79,7 @@ const Home = (args) => {
     const config = {
       headers: {
         'Content-type': 'multipart/form-data',
-        Authorization: 'Bearer ',
+        Authorization: 'Bearer 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',
       }
     };
   
@@ -93,7 +94,7 @@ const Home = (args) => {
     const ToggleMic = () => {
       if (!can_record) return;
       
-      is_recording = !is_recording;
+      is_recording = !is_recording
   
       if (is_recording) {
         recorder.start();
@@ -101,14 +102,13 @@ const Home = (args) => {
         recorder.stop();
         can_record = true;
       }
+      
     };
 
   return (
 
     <div>
-      <div className=" flex-row p-2 ">
-        <Sidebar />
-      </div>
+
       <div className="d-flex">
         <div className="p-2 flex-grow-1"></div>
         <div className="p-2 flex-grow-1 text-center">
@@ -118,6 +118,11 @@ const Home = (args) => {
                 <DescriptionBox onSubmit={handleFormSubmit} />
                 <Button outline className="bi bi-mic m-3 px-2" onClick={ToggleMic}>
                 </Button>
+                {(recordingToggle == false) ? (
+                  <p>Click the mic to record</p>
+                ) : (
+                  <p>Recording</p>
+                )}
             </div>
           </div>
         </div>

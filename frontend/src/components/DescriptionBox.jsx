@@ -39,6 +39,7 @@ const DescriptionBox = ({ onSubmit }) => {
                 value={descriptionValue}
                 onChange={handleChange}
             />
+            <br/>
                 <button className="btn btn-primary" type="submit">Generate Slide Summaries</button>
 
         </form>

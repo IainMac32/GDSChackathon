@@ -35,9 +35,6 @@ const Edit = (args) => {
   return (
 
     <div>
-      <div className=" flex-row p-2 ">
-        <Sidebar />
-      </div>
       <div className="d-flex">
         <div className="p-2 flex-grow-1"></div>
         <div className="p-2 flex-grow-1 text-center">
