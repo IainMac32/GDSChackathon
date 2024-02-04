@@ -65,7 +65,7 @@ const DescriptionBox = ({ onSubmit }) => {
                 const audioURL = URL.createObjectURL(blob);
                 callWhisper(blob);
                 const audio = new Audio(audioURL);
-                audio.play();
+                //audio.play();
               }
               can_record = true;
             });
@@ -81,7 +81,7 @@ const DescriptionBox = ({ onSubmit }) => {
         const config = {
           headers: {
             'Content-type': 'multipart/form-data',
-            Authorization: 'Bearer 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',
+            Authorization: 'Bearer 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',
           }
         };
       

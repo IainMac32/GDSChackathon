@@ -39,7 +39,6 @@ const Edit = (args) => {
         <div className="p-2 flex-grow-1"></div>
         <div className="p-2 flex-grow-1 text-center">
           <div className="flex-column text-center">
-            <h1 className='p-3'>Google Slides Generator</h1>
             <div>
               <InputForm onSubmit={handleFormSubmit} />
             </div>
