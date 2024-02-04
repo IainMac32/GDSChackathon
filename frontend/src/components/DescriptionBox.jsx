@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import "../App.css"
 
@@ -16,7 +16,19 @@ const DescriptionBox = ({ onSubmit }) => {
         onSubmit(descriptionValue)
     };
 
+    useEffect(() => {
 
+        fetch("http://127.0.0.1:5000/api/get_description").then(
+            res => {
+                return res.json();
+            }
+        ).then(
+            descriptionValue => {
+                setDescriptionValue(descriptionValue.response[0])
+                console.log(descriptionValue);
+            });
+
+    }, []);
 
     return (
         <form className="form-group" onSubmit={handleSubmit}>

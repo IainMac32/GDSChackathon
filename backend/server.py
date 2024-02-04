@@ -347,6 +347,7 @@ CORS(app, origins=["http://localhost:5173"])
 title = ""
 question = ""
 slidesList = []
+description = ""
 
 # OTHER STUFF
 openai.api_key = ""
@@ -394,6 +395,21 @@ def submit_title():
     return {"response": "POST REQUEST RECEIVED"}
 
 
+@app.route("/api/submit_voice", methods=['POST', 'GET', 'OPTIONS'])
+def submit_voice():
+    input_data = request.json.get('voiceData')
+
+    print("?????????????????")
+    print(input_data)
+    print("?????????????????")
+
+    global description
+    description = input_data
+
+    get_description()
+    return {"response": "POST REQUEST RECEIVED"}
+
+
 @app.route("/api/submit_description", methods=['POST', 'GET', 'OPTIONS'])
 def submit_description():
     input_data = request.json.get('descriptionValue')
@@ -413,6 +429,11 @@ def submit_description():
 
     return {"response": "POST REQUEST RECEIVED"}
 
+
+@app.route("/api/get_description", methods=['GET'])
+def get_description():
+    global description
+    return {"response": [description]}
 
 @app.route("/api/get_title", methods=['GET'])
 def get_info():
