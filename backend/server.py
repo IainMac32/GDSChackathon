@@ -338,13 +338,17 @@ def presentation_routine():
 
             print("PROMP!!!!!!!!!!!!!! ",title)
 
-            imgURL = image_search(title)
-            add_image_to_slide(presentation_id, slide_id1, imgURL,180,280,200,215)
+            imgURL = image_search(searchPrompt+" "+title)
+            add_image_to_slide(presentation_id, slide_id1, imgURL,160,260,200,220)
 
 
             create_textbox_title(presentation_id, slide_id1,title)
             print("waiting for body create")
             body = slideInfo
+            parts = body.rsplit(".", 1)
+            body = parts[0].replace(".", ".\n- ") + parts[1]
+            body = "- " + body
+
             create_textbox_body(presentation_id, slide_id1,body)
             print("done one!")
             slideNum +=1
@@ -361,7 +365,7 @@ slidesList = []
 description = ""
 
 # OTHER STUFF
-openai.api_key = "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"
+openai.api_key = "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"
 
 # ROUTES 
 
