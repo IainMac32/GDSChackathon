@@ -30,5 +30,25 @@ def submit_title():
     return {"response": "POST REQUEST RECEIVED"}
 
 
+@app.route("/api/submit_description", methods=['POST', 'GET', 'OPTIONS'])
+def submit_description():
+    input_data = request.json.get('descriptionValue')
+    print("!!!!!!!!!!!!!!!!")
+    print(input_data)
+    print("!!!!!!!!!!!!!!!!")
+
+    return {"response": "POST REQUEST RECEIVED"}
+
+
+@app.route("/api/get_title", methods=['GET'])
+def get_info():
+    return {"response": ["Title from flask!"]}
+
+
+@app.route("/api/get_slides", methods=['GET'])
+def get_slides():
+    return {"response": ["Slide 1 Test", "Slide 2 Test", "Slide 3 Test"]}
+
+
 if __name__ == '__main__':
     app.run(debug=True)

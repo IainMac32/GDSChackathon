@@ -14,4 +14,8 @@
   padding: 0px;
 }
 
+.flex {
+  display: flex;
+  flex-direction: row;
+}
 

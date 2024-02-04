@@ -3,10 +3,10 @@ import { useState } from 'react'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home'
+import Edit from './pages/Edit'
 
 
-
-function App(args) { 
+function App(args) {
 
 
 
@@ -15,12 +15,12 @@ function App(args) {
 
     <BrowserRouter>
       <Routes>
-        
-        <Route path = '/' element = {<Home/>}/>
-        
+
+        <Route path='/' element={<Home />} />
+        <Route path='/edit' element={<Edit />} />
       </Routes>
-</BrowserRouter>
-    
+    </BrowserRouter>
+
 
 
 

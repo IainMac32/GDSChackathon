@@ -5,15 +5,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css"
 
 import Sidebar from '../components/SideBar';
-import DescriptionBox from '../components/DescriptionBox';
+import InputForm from '../components/InputForm';
 
+const Edit = (args) => {
 
-const Home = (args) => {
+  const handleFormSubmit = (inputValues, inputValue) => {
+    console.log(inputValues)
+    console.log(inputValue)
 
-  const handleFormSubmit = (descriptionValue) => {
-    console.log(descriptionValue)
-
-    axios.post("http://127.0.0.1:5000/api/submit_description", { descriptionValue })
+    axios.post("http://127.0.0.1:5000/api/submit_title", { inputValue })
       .then(response => {
         console.log('Backend response:', response.data);
         window.location.reload(false)
@@ -21,7 +21,15 @@ const Home = (args) => {
       .catch(error => {
         console.error('Error submitting input:', error);
       });
-    
+
+    axios.post("http://127.0.0.1:5000/api/submit", { inputValues })
+      .then(response => {
+        console.log('Backend response:', response.data);
+        window.location.reload(false)
+      })
+      .catch(error => {
+        console.error('Error submitting input:', error);
+      });
   };
 
   return (
@@ -36,12 +44,12 @@ const Home = (args) => {
           <div className="flex-column text-center">
             <h1 className='p-3'>Google Slides Generator</h1>
             <div>
-                <DescriptionBox onSubmit={handleFormSubmit}></DescriptionBox>
+              <InputForm onSubmit={handleFormSubmit} />
             </div>
           </div>
         </div>
         <div className="p-2 flex-grow-1">
-
+          
         </div>
       </div>
     </div>
@@ -49,4 +57,4 @@ const Home = (args) => {
   )
 }
 
-export default Home
+export default Edit
