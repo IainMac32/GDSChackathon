@@ -78,7 +78,7 @@ const Home = (args) => {
     const config = {
       headers: {
         'Content-type': 'multipart/form-data',
-        Authorization: 'Bearer API KEY!!!',
+        Authorization: 'Bearer ',
       }
     };
   
