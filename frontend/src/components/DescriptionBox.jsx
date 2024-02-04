@@ -81,7 +81,7 @@ const DescriptionBox = ({ onSubmit }) => {
         const config = {
           headers: {
             'Content-type': 'multipart/form-data',
-            Authorization: 'Bearer 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',
+            Authorization: 'Bearer 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',
           }
         };
       

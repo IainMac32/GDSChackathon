@@ -29,7 +29,7 @@ def create_slide(slideNum, presentation_id):
     response = slides_service.presentations().batchUpdate(presentationId=presentation_id, body={"requests": requests}).execute()
 
     first_slide_id = response.get('replies')[0]['createSlide']['objectId']
-    print(f"The ID of the first slide is: {first_slide_id}")
+    #print(f"The ID of the first slide is: {first_slide_id}")
 
     return first_slide_id
 
@@ -37,7 +37,8 @@ def create_slide(slideNum, presentation_id):
 
 def create_presentation(title):
     try:
-
+        if len(title) == 1:
+            title = title[0]
         # Create a new presentation
         presentation = slides_service.presentations().create(body={"title": title}).execute()
         presentation_id = presentation.get('presentationId')
@@ -121,7 +122,7 @@ def create_textbox_title(presentation_id, page_id, text):
             .execute()
         )
         create_shape_response = response.get("replies")[0].get("createShape")
-        print(f"Created textbox with ID:{(create_shape_response.get('objectId'))}")
+        #print(f"Created textbox with ID:{(create_shape_response.get('objectId'))}")
         
     except HttpError as error:
         print(f"An error occurred: {error}")
@@ -186,7 +187,7 @@ def create_textbox_body(presentation_id, page_id, text):
             .execute()
         )
         create_shape_response = response.get("replies")[0].get("createShape")
-        print(f"Created textbox with ID:{(create_shape_response.get('objectId'))}")
+        #print(f"Created textbox with ID:{(create_shape_response.get('objectId'))}")
         
     except HttpError as error:
         print(f"An error occurred: {error}")
@@ -229,7 +230,7 @@ def add_image_to_slide(presentation_id, slide_id, image_url,h,w,x,y):
             .execute()
         )
         create_image_response = response.get("replies")[0].get("createImage")
-        print(f"Added image with ID: {create_image_response.get('objectId')}")
+        #print(f"Added image with ID: {create_image_response.get('objectId')}")
 
     except HttpError as error:
         print(f"An error occurred: {error}")
@@ -248,7 +249,7 @@ def image_search(searchPrompt):
     gis = GoogleImagesSearch(api_key, cx)
 
     search_params = {
-        'q': searchPrompt+" image",
+        'q': searchPrompt,
         'num': 1,  # Number of results to fetch
         'safe': 'medium',  # Safe search level (options: high, medium, off)
 
@@ -282,7 +283,7 @@ def create_slide_information():
     #main title slide
     completion = openai.chat.completions.create(model="gpt-4-0125-preview",
         messages=[
-        {"role": "user", "content": "Based of this info make me a title 4 words max. Only return the title nothing else! Also don't include quotation marks"+AnswerGPT}
+        {"role": "user", "content": "Based of this info make me a title 4 words max. Try to be specific don't be too creative. Only return the title nothing else! Also don't include quotation marks"+AnswerGPT}
     ])
 
     title = (completion.choices[0].message.content)
@@ -292,10 +293,9 @@ def presentation_routine():
     global slidesList
 
     if __name__ == "__main__":
-        print("TITLEE BEFORE!!!!! ",title)
-
-        presentation_id = create_presentation(title[0]).get('presentationId')
-        print("TITLEE AFTER!!!!! ",title)
+        if len(title) == 1:
+            title = title[0]
+        presentation_id = create_presentation(title).get('presentationId')
 
         #Deletes first slide
         requests = [{"deleteObject": {"objectId": "p",}}]
@@ -304,19 +304,16 @@ def presentation_routine():
 
         slideNum = 0
 
-        print("waiting for slide create")
         slide_id1 = create_slide(slideNum, presentation_id)
-        print("waiting for title create")
-        create_textbox_title(presentation_id, slide_id1,title[0])
-        print("done first!")
+        create_textbox_title(presentation_id, slide_id1,title)
 
         completion = openai.chat.completions.create(model="gpt-4-0125-preview",
             messages=[
-            {"role": "user", "content": "if you were to look up an image to put with this title of a slide what would you search up . Only return the search prompt nothing else! Also don't include quotation marks"+title[0]}
+            {"role": "user", "content": "if you were to look up an image to put with this title of a slide what would you search up . Only return the search prompt nothing else! Also don't include quotation marks"+title}
         ])
         searchPrompt = (completion.choices[0].message.content)
 
-        print("PROMP!!!!!!!!!!!!!! ",searchPrompt)
+        print("PROMP MAIN TITLE !!!!!!!!!!!!!! ",searchPrompt)
 
         imgURL = image_search(searchPrompt)
         add_image_to_slide(presentation_id, slide_id1, imgURL,350,450,125,50)
@@ -326,33 +323,38 @@ def presentation_routine():
         #############################
 
         for slideInfo in slidesList:
-            print("Waiting for GPT")
             completion = openai.chat.completions.create(model="gpt-4-0125-preview",
                 messages=[
-                {"role": "user", "content": "Based of this info make me a title 4 words max. Only return the title nothing else! Also don't include quotation marks"+slideInfo}
+                {"role": "user", "content": "Based of this info make me a title 4 words max. Only return the title nothing else! Also don't include quotation marks"+title+" "+slideInfo}
             ])
+            Subtitle = (completion.choices[0].message.content)
 
-
-            print("waiting for slide create")
             slide_id1 = create_slide(slideNum, presentation_id)
-            print("waiting for title create")
-            title = (completion.choices[0].message.content)
 
-            print("PROMP!!!!!!!!!!!!!! ",title)
 
-            imgURL = image_search(searchPrompt+" "+title)
+
+            body = slideInfo
+            print("THIS IS BODY!",body)
+            completion = openai.chat.completions.create(model="gpt-4-0125-preview",
+                messages=[
+                {"role": "user", "content": "if you were to look up an image to put with this info on a slide what would you search up. Only return the search prompt nothing else! Also don't include quotation marks. This is the info: "+body}
+            ])
+            bodyPrompt = (completion.choices[0].message.content)
+
+            print("PROMP BODY!!!!!!!!!!!!!! ",bodyPrompt)
+            print("")
+
+            imgURL = image_search(bodyPrompt)
             add_image_to_slide(presentation_id, slide_id1, imgURL,155,255,200,235)
 
 
-            create_textbox_title(presentation_id, slide_id1,title)
-            print("waiting for body create")
-            body = slideInfo
+            create_textbox_title(presentation_id, slide_id1,Subtitle)
+            
             parts = body.rsplit(".", 1)
             body = parts[0].replace(".", ".\n- ") + parts[1]
             body = "- " + body
 
             create_textbox_body(presentation_id, slide_id1,body)
-            print("done one!")
             slideNum +=1
             
 
@@ -367,7 +369,7 @@ slidesList = []
 description = ""
 
 # OTHER STUFF
-openai.api_key = "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"
+openai.api_key = "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"
 
 # ROUTES 
 
