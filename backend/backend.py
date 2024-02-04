@@ -257,7 +257,7 @@ def image_search(searchPrompt):
 
 #-----------------------------------------------------------------------------------------------------
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 question = input("what do you want to write about? \n")
 
@@ -265,7 +265,7 @@ question = input("what do you want to write about? \n")
 
 completion = openai.chat.completions.create(model="gpt-4-0125-preview",
     messages=[
-    {"role": "user", "content": "I want to make a slide show about the following information. I don't want a title I just want the body of the slides (120 max words per slide). Here is the context. "+question+". Nothing else. To indicate a new slide put '|' to help users know when a slide ends. DO NOT have more than 5 slides"}
+    {"role": "user", "content": "I want to make a slide show about the following information. I don't want a title I just want the body of the slides (50 minimum words, 120 max words per slide). Here is the context. "+question+". Nothing else. To indicate a new slide put '|' to help users know when a slide ends. DO NOT have more than 5 slides"}
 ])
 
 AnswerGPT = (completion.choices[0].message.content).replace("\n", "")
