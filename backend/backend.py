@@ -193,7 +193,7 @@ def create_textbox_body(presentation_id, page_id, text):
 
 #-----------------------------------------------------------------------------------------------------
 
-def add_image_to_slide(presentation_id, slide_id, image_url):
+def add_image_to_slide(presentation_id, slide_id, image_url,h,w,x,y):
     try:
         service = build("slides", "v1", credentials=creds)
 
@@ -205,12 +205,12 @@ def add_image_to_slide(presentation_id, slide_id, image_url):
                     "url": image_url,
                     "elementProperties": {
                         "pageObjectId": slide_id,
-                        "size": {"height": {"magnitude": 300, "unit": "PT"}, "width": {"magnitude": 400, "unit": "PT"}},
+                        "size": {"height": {"magnitude": h, "unit": "PT"}, "width": {"magnitude": w, "unit": "PT"}},
                         "transform": {
                             "scaleX": 1,
                             "scaleY": 1,
-                            "translateX": 50,
-                            "translateY": 100,
+                            "translateX": x,
+                            "translateY": y,
                             "unit": "PT",
                         },
                     },
@@ -241,13 +241,14 @@ def image_search(searchPrompt):
     from google_images_search import GoogleImagesSearch
 
     api_key = 'AIzaSyBx2hD7jfdA3lbLfrdRjhdh5y5A9Dnu8oI'
-    cx = '13e50dc25e96d4813'
+    cx = '83d957453d30b4a54'
     gis = GoogleImagesSearch(api_key, cx)
 
     search_params = {
-        'q': searchPrompt,
+        'q': searchPrompt+" image",
         'num': 1,  # Number of results to fetch
-        'safe': 'high',  # Safe search level (options: high, medium, off)
+        'safe': 'medium',  # Safe search level (options: high, medium, off)
+
     }
     gis.search(search_params=search_params)
 
@@ -257,7 +258,7 @@ def image_search(searchPrompt):
 
 #-----------------------------------------------------------------------------------------------------
 
-openai.api_key = "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"
+openai.api_key = "sk-"
 
 question = input("what do you want to write about? \n")
 
@@ -265,13 +266,16 @@ question = input("what do you want to write about? \n")
 
 completion = openai.chat.completions.create(model="gpt-4-0125-preview",
     messages=[
-    {"role": "user", "content": "I want to make a slide show about the following information. I don't want a title I just want the body of the slides (50 minimum words, 120 max words per slide). Here is the context. "+question+". Nothing else. To indicate a new slide put '|' to help users know when a slide ends. DO NOT have more than 5 slides"}
+    {"role": "user", "content": "I want to make a slide show about the following information. I don't want a title I just want the body of the slides (50 minimum words, 120 max words per slide). Here is the context. "+question+". Nothing else. To indicate a new slide put '|' to help users know when a slide ends. you dont need to label each slide. DO NOT have more than 5 slides"}
 ])
 
 AnswerGPT = (completion.choices[0].message.content).replace("\n", "")
 print(AnswerGPT)
 if AnswerGPT[-1] == "|":
     AnswerGPT = AnswerGPT[:-1]
+if AnswerGPT[-2] == "|":
+    AnswerGPT = AnswerGPT[:-2]
+
 
 slidesList = AnswerGPT.split("|")
 print(len(slidesList))
@@ -281,19 +285,20 @@ print(len(slidesList))
 
 
 if __name__ == "__main__":
-    # creates a presentation
     presentation_id = create_presentation("Test2").get('presentationId')
-    slideNum = 1
 
+    #Deletes first slide
+    requests = [{"deleteObject": {"objectId": "p",}}]
+    body = {"requests": requests}
+    response = (service.presentations().batchUpdate(presentationId=presentation_id, body=body).execute())
 
-
+    # creates a presentation
+    slideNum = 0
     #main title slide
     completion = openai.chat.completions.create(model="gpt-4-0125-preview",
         messages=[
         {"role": "user", "content": "Based of this info make me a title 4 words max. Only return the title nothing else! Also don't include quotation marks"+AnswerGPT}
     ])
-
-    
 
     print("waiting for slide create")
     slide_id1 = create_slide(slideNum)
@@ -311,7 +316,7 @@ if __name__ == "__main__":
     print("PROMP!!!!!!!!!!!!!! ",searchPrompt)
 
     imgURL = image_search(searchPrompt)
-    add_image_to_slide(presentation_id, slide_id1, imgURL)
+    add_image_to_slide(presentation_id, slide_id1, imgURL,350,450,125,50)
 
     slideNum +=1
 
@@ -329,6 +334,13 @@ if __name__ == "__main__":
         slide_id1 = create_slide(slideNum)
         print("waiting for title create")
         title = (completion.choices[0].message.content)
+
+        print("PROMP!!!!!!!!!!!!!! ",title)
+
+        imgURL = image_search(title)
+        add_image_to_slide(presentation_id, slide_id1, imgURL,180,280,200,215)
+
+
         create_textbox_title(presentation_id, slide_id1,title)
         print("waiting for body create")
         body = slideInfo
@@ -337,10 +349,6 @@ if __name__ == "__main__":
         slideNum +=1
             
 
-    #Deletes first slide
-    requests = [{"deleteObject": {"objectId": "p",}}]
-    body = {"requests": requests}
-    response = (service.presentations().batchUpdate(presentationId=presentation_id, body=body).execute())
 
 
 
