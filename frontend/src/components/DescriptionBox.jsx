@@ -81,7 +81,7 @@ const DescriptionBox = ({ onSubmit }) => {
         const config = {
           headers: {
             'Content-type': 'multipart/form-data',
-            Authorization: 'Bearer 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',
+            Authorization: 'Bearer OPEN AI API KEY',
           }
         };
       

@@ -93,14 +93,14 @@ const InputForm = ({ onSubmit }) => {
             {(inputValue == "") ? (
                 <div>
                     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                    <h1 className='p-3'>Google Slides Generator</h1>
+                    <h1 className='p-3'>SparkSlides</h1>
                 <LoadingIcon/>
                 </div>
                 
             ) : (
                 <div>
                     <br/><br/><br/>
-                    <h1 className='p-3'>Google Slides Generator</h1>
+                    <h1 className='p-3'>SparkSlides</h1>
                     <form className="form-group" onSubmit={handleSubmit}>
                         <label className="form-label">
                             Project Title: <input className="form-control" type="text" value={inputValue} onChange={handleChange} />

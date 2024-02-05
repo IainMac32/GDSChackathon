@@ -9,8 +9,8 @@ function LoadingIcon() {
         .then((response) => response.json())
         .then((json) => {
           console.log(json);
-          setData(json);
-          setDone(true);
+          //setData(json);
+          //setDone(true);
         });
     }, 2000);
   }, []);
