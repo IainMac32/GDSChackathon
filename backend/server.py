@@ -244,8 +244,8 @@ def add_image_to_slide(presentation_id, slide_id, image_url,h,w,x,y):
 def image_search(searchPrompt):
     from google_images_search import GoogleImagesSearch
 
-    api_key = 'AIzaSyBx2hD7jfdA3lbLfrdRjhdh5y5A9Dnu8oI'
-    cx = '83d957453d30b4a54'
+    api_key = 'GoogleAPIkey'
+    cx = 'GoogleSearchAPIkey'
     gis = GoogleImagesSearch(api_key, cx)
 
     search_params = {
