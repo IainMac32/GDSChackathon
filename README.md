@@ -10,16 +10,11 @@ Check out our demo at: [https://devpost.com/software/sparkslides](https://devpos
 
 - Easy-to-use interface
 - Real-time collaboration
-- Customizable templates
-- Dynamic animations
+- Image generation
 - And much more!
-
-## Getting Started
-
-To get started with SparkSlides, simply visit our website and sign up for an account. Once you're logged in, you can start creating stunning presentations right away!
 
 ## Feedback
 
-We'd love to hear your feedback! If you have any questions, suggestions, or just want to say hello, feel free to reach out to us at [contact@sparkslides.com](mailto:contact@sparkslides.com).
+We'd love to hear your feedback! If you have any questions, suggestions, or just want to say hello, feel free to reach out!
 
 Happy presenting!
