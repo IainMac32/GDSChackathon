@@ -369,7 +369,7 @@ slidesList = []
 description = ""
 
 # OTHER STUFF
-openai.api_key = " API KEY "
+openai.api_key = " API KEY HERE "
 
 # ROUTES 
 
