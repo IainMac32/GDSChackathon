@@ -11,7 +11,7 @@ Check out a live demo and read more at: [https://devpost.com/software/sparkslide
 **High-Level Product Objectives**
 - Easy-to-use interface
 - Real-time collaboration
-- Dication options
+- Dictation options
 - Image generation
 - And much more!
 
